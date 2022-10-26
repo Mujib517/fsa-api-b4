@@ -13,6 +13,6 @@ function health(req, res) {
 }
 
 module.exports = {
-    home: home,
-    health: health
+    health,
+    home,
 };
