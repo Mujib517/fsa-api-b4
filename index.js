@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const homeRouter = require('./routes/homeRouter');
 const bookRouter = require('./routes/bookRouter');
@@ -8,6 +9,16 @@ const PORT = 3000;
 
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
 
+// REST API: Representational state transfer
+// endpoint or URL http://localhost:3000/health
+// Uniform interface: GET read, POST create, PUT update, DELETE delete, PATCH partial update
+// Stateless: request self sufficient, scaling
+// Layered system: 
+// Cacheability:
+// Client-server:  req-res
+// everything is a resource
+// Concept
+// Spring boot, ASP.Net Web API, Express
 // routing
 // 1xx - information, pending
 // 2xx - success information, 200, 201, 204, 
@@ -42,6 +53,9 @@ app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
         }
 */
 // registering
+// CRUD
+app.use(bodyParser.json());
+
 app.use('/', homeRouter);
 app.use('/books', bookRouter);
 
