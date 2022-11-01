@@ -1,5 +1,8 @@
 // in memory
 // summary & detail
+// database
+// No SQL: Mongo, Aurora, Cassandra
+// MongoDB
 const books = [
     { id: 1, name: 'Clean Coding', price: 80 },
     { id: 2, name: 'Clean Coder', price: 100 },

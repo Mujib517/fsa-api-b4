@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const homeRouter = require('./routes/homeRouter');
 const bookRouter = require('./routes/bookRouter');
@@ -8,6 +9,9 @@ const app = express();
 const PORT = 3000;
 
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
+
+// configurations
+mongoose.connect('mongodb://127.0.0.1:27017/fsa-b4', () => console.log('Connected to DB'));
 
 // REST API: Representational state transfer
 // endpoint or URL http://localhost:3000/health
