@@ -20,8 +20,24 @@ const getById = (id) => {
     return productModel.findById(id, projection);
 }
 
+const remove = (id) => {
+    return productModel.deleteOne({ _id: id });
+}
+
+// username & password
+// 5 clicks
+// backdoors
+// code reviews 3months
+// quality
+// secrets
+// dealer -> buy -> fees, taxes -> pay -> 
+// Enthusiasts, learning
+// infosys 
+// 10hr - 5hrs
+// Big billion
 module.exports = {
     get,
     save,
     getById,
+    remove,
 };

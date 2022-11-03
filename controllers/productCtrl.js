@@ -15,10 +15,11 @@ class ProductCtrl {
 
     async post(req, res) {
         try {
-            await productRepository.save();
+            await productRepository.save(req.body);
             res.status(201);
             res.send('Created');
         } catch (err) {
+            console.error(err);
             res.status(500);
             res.send('Internal Server Error');
         }
@@ -30,6 +31,14 @@ class ProductCtrl {
 
         res.status(200);
         res.json(product);
+    }
+
+    async remove(req, res) {
+        const id = req.params.id;
+        await productRepository.remove(id);
+
+        res.status(204);
+        res.send();
     }
 }
 
