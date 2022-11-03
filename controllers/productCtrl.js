@@ -1,4 +1,3 @@
-const productModel = require('../models/product.model');
 const productRepository = require('../repositories/productRepository');
 
 class ProductCtrl {
@@ -23,6 +22,14 @@ class ProductCtrl {
             res.status(500);
             res.send('Internal Server Error');
         }
+    }
+
+    async getById(req, res) {
+        const id = req.params.id;
+        const product = await productRepository.getById(id);
+
+        res.status(200);
+        res.json(product);
     }
 }
 

@@ -11,7 +11,17 @@ const save = (data) => {
     return Product.save();
 }
 
+// const getById = (id) => productModel.findOne({
+//     _id: id
+// });
+
+const getById = (id) => {
+    const projection = { __v: 0, createdDate: 0, updatedDate: 0 };
+    return productModel.findById(id, projection);
+}
+
 module.exports = {
     get,
     save,
+    getById,
 };
