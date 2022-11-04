@@ -40,6 +40,36 @@ class ProductCtrl {
         res.status(204);
         res.send();
     }
+
+    async update(req, res) {
+        try {
+            const id = req.params.id;
+            const data = req.body;
+
+            await productRepository.update(id, data);
+            res.status(204);
+            res.send();
+        } catch (err) {
+            console.error(err);
+            res.status(500);
+            res.send('Internal Server Error');
+        }
+    }
+
+    async patch(req, res) {
+        try {
+            const id = req.params.id;
+            const data = req.body;
+
+            await productRepository.patch(id, data);
+            res.status(204);
+            res.send();
+        } catch (err) {
+            console.error(err);
+            res.status(500);
+            res.send('Internal Server Error');
+        }
+    }
 }
 
 module.exports = new ProductCtrl();

@@ -24,20 +24,36 @@ const remove = (id) => {
     return productModel.deleteOne({ _id: id });
 }
 
-// username & password
-// 5 clicks
-// backdoors
-// code reviews 3months
-// quality
-// secrets
-// dealer -> buy -> fees, taxes -> pay -> 
-// Enthusiasts, learning
-// infosys 
-// 10hr - 5hrs
-// Big billion
+const update = (id, data) => {
+    return productModel.updateOne({ _id: id }, {
+        $set: {
+            brand: data.brand,
+            model: data.model,
+            price: data.price,
+            inStock: data.inStock,
+            discount: data.discount
+        }
+    });
+};
+
+const patch = (id, data) => {
+    delete data._id;
+    const updateObj = {};
+
+    for (let key in data) {
+        updateObj[key] = data[key];
+    }
+
+    return productModel.updateOne({ _id: id }, {
+        $set: updateObj
+    });
+};
+
 module.exports = {
     get,
     save,
     getById,
     remove,
+    update,
+    patch,
 };
