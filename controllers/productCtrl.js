@@ -1,5 +1,25 @@
 const productRepository = require('../repositories/productRepository');
 
+const hasValidationError = (err) => {
+    return err && err.message && err.message.indexOf('validation failed') > -1
+};
+
+const formatErrors = (errors) => {
+    const errorResponse = [];
+
+    // reflection
+    for (let key in errors) {
+        const err = {
+            field: errors[key].path,
+            message: errors[key].message,
+        };
+
+        errorResponse.push(err);
+    }
+
+    return errorResponse;
+}
+
 class ProductCtrl {
 
     async get(req, res) {
@@ -19,9 +39,13 @@ class ProductCtrl {
             res.status(201);
             res.send('Created');
         } catch (err) {
-            console.error(err);
-            res.status(500);
-            res.send('Internal Server Error');
+            if (hasValidationError(err)) {
+                res.status(400);
+                res.json(formatErrors(err.errors));
+            } else {
+                res.status(500);
+                res.send('Internal Server Error');
+            }
         }
     }
 
