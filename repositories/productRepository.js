@@ -1,9 +1,14 @@
 const productModel = require('../models/product.model');
 
-const get = () => {
+const get = (page, pageSize) => {
+    const rowsToSkip = (page - 1) * pageSize;
     return productModel.find({},
-        { updatedDate: 0, createdDate: 0, __v: 0 });
+        { updatedDate: 0, createdDate: 0, __v: 0 })
+        .skip(rowsToSkip)
+        .limit(pageSize);
 };
+
+const getCount = () => productModel.count();
 
 const save = (data) => {
     data.createdDate = new Date();
@@ -56,4 +61,5 @@ module.exports = {
     remove,
     update,
     patch,
+    getCount,
 };

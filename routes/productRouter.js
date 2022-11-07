@@ -5,6 +5,8 @@ const productCtrl = require('../controllers/productCtrl');
 const router = express.Router();
 
 router.get('/', productCtrl.get);
+router.get('/page/:page/limit/:limit', productCtrl.get);
+
 router.get('/:id', productCtrl.getById);
 router.post('/', productCtrl.post);
 router.delete('/:id', productCtrl.remove);

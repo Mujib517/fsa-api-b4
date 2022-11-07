@@ -22,11 +22,26 @@ const formatErrors = (errors) => {
 
 class ProductCtrl {
 
+    // pagination
+    // http://localhost:3000/api/products/page/2/limit/10
     async get(req, res) {
         try {
-            const data = await productRepository.get();
+            const page = +req.params.page || 1;
+            const limit = +req.params.limit || 10;
+
+            const count = await productRepository.getCount();
+            const data = await productRepository.get(page, limit);
+
+            const response = {
+                metadata: {
+                    count: count,
+                    pages: Math.ceil(count / limit)
+                },
+                data
+            };
+
             res.status(200);
-            res.json(data);
+            res.json(response);
         } catch (err) {
             res.status(500);
             res.send('Internal Server Error');
