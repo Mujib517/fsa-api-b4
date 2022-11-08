@@ -24,13 +24,19 @@ class ProductCtrl {
 
     // pagination
     // http://localhost:3000/api/products/page/2/limit/10
+    // products list
+    // pagination
+    // sorting
+    // searching
     async get(req, res) {
         try {
             const page = +req.params.page || 1;
             const limit = +req.params.limit || 10;
+            const sort = req.query.sort || 'updatedDate';
+            const direction = req.query.direction || 'asc';
 
             const count = await productRepository.getCount();
-            const data = await productRepository.get(page, limit);
+            const data = await productRepository.get(page, limit, sort, direction);
 
             const response = {
                 metadata: {

@@ -1,12 +1,44 @@
 const productModel = require('../models/product.model');
 
-const get = (page, pageSize) => {
+const getSortBy = (sort) => {
+    switch (sort.toLowerCase()) {
+        case 'price':
+            return 'price';
+        case 'discount':
+            return 'discount';
+        case 'brand':
+            return 'brand';
+        case 'model':
+            return 'model';
+
+        default:
+            return 'updatedDate';
+    }
+};
+
+const getSortDirection = (direction) => {
+    switch (direction.toLowerCase()) {
+        case 'asc':
+            return 1;
+        case 'desc':
+            return -1;
+
+        default:
+            return 1;
+    }
+}
+
+const get = (page, pageSize, sort, direction) => {
+    const sortByField = getSortBy(sort);
+    const sortDirection = getSortDirection(direction);
     const rowsToSkip = (page - 1) * pageSize;
     return productModel.find({},
-        { updatedDate: 0, createdDate: 0, __v: 0 })
+        { createdDate: 0, __v: 0 })
+        .sort({ [sortByField]: sortDirection })
         .skip(rowsToSkip)
         .limit(pageSize);
 };
+
 
 const getCount = () => productModel.count();
 
