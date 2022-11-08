@@ -1,5 +1,15 @@
 const productModel = require('../models/product.model');
 
+// REST API
+// CRUD
+// Pagination
+// Searching
+// Sorting
+// logging, debug, information, warnings, errors
+// Request, Application
+// DB, File, Elastic searching
+
+
 const getSortBy = (sort) => {
     switch (sort.toLowerCase()) {
         case 'price':
