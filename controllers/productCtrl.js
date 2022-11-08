@@ -27,6 +27,9 @@ class ProductCtrl {
     // products list
     // pagination
     // sorting
+    // searching brand price model 
+    // pagination
+    // sorting
     // searching
     async get(req, res) {
         try {
@@ -35,9 +38,10 @@ class ProductCtrl {
                 pageSize: +req.params.limit || 10,
                 sort: req.query.sort || 'updatedDate',
                 direction: req.query.direction || 'asc',
+                search: req.query.search || ''
             };
 
-            const count = await productRepository.getCount();
+            const count = await productRepository.getCount(options);
             const data = await productRepository.get(options);
 
             const response = {

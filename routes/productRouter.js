@@ -6,8 +6,7 @@ const router = express.Router();
 
 router.get('/', productCtrl.get);
 
-// http://localhost:3000/api/products/page/1/limit/5?sort=price&direction=dsc
-
+// api/products?brand=Apple&model=Iphone&price=[100,500]&discount=[10,40]
 router.get('/page/:page/limit/:limit', productCtrl.get);
 
 router.get('/:id', productCtrl.getById);

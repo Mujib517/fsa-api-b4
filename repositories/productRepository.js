@@ -29,19 +29,38 @@ const getSortDirection = (direction) => {
 }
 
 const get = (options) => {
-    const { sort, direction, page, pageSize } = options;
-    
+    const { sort, direction, page, pageSize, search } = options;
+
     const sortByField = getSortBy(sort);
     const sortDirection = getSortDirection(direction);
     const rowsToSkip = (page - 1) * pageSize;
-    return productModel.find({},
+
+    const filter = {
+        $or: [
+            { brand: new RegExp(search, 'i') },
+            { model: new RegExp(search, 'i') },
+        ]
+    };
+
+    return productModel.find(filter,
         { createdDate: 0, __v: 0 })
         .sort({ [sortByField]: sortDirection })
         .skip(rowsToSkip)
         .limit(pageSize);
 };
 
-const getCount = () => productModel.count();
+const getCount = (options) => {
+    const { search } = options;
+
+    const filter = {
+        $or: [
+            { brand: new RegExp(search, 'i') },
+            { model: new RegExp(search, 'i') },
+        ]
+    };
+
+    return productModel.count(filter);
+}
 
 const save = (data) => {
     data.createdDate = new Date();
