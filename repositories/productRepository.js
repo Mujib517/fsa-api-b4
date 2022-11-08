@@ -28,7 +28,9 @@ const getSortDirection = (direction) => {
     }
 }
 
-const get = (page, pageSize, sort, direction) => {
+const get = (options) => {
+    const { sort, direction, page, pageSize } = options;
+    
     const sortByField = getSortBy(sort);
     const sortDirection = getSortDirection(direction);
     const rowsToSkip = (page - 1) * pageSize;
@@ -38,7 +40,6 @@ const get = (page, pageSize, sort, direction) => {
         .skip(rowsToSkip)
         .limit(pageSize);
 };
-
 
 const getCount = () => productModel.count();
 

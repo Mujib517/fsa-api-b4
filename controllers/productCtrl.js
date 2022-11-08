@@ -30,18 +30,20 @@ class ProductCtrl {
     // searching
     async get(req, res) {
         try {
-            const page = +req.params.page || 1;
-            const limit = +req.params.limit || 10;
-            const sort = req.query.sort || 'updatedDate';
-            const direction = req.query.direction || 'asc';
+            const options = {
+                page: +req.params.page || 1,
+                pageSize: +req.params.limit || 10,
+                sort: req.query.sort || 'updatedDate',
+                direction: req.query.direction || 'asc',
+            };
 
             const count = await productRepository.getCount();
-            const data = await productRepository.get(page, limit, sort, direction);
+            const data = await productRepository.get(options);
 
             const response = {
                 metadata: {
-                    count: count,
-                    pages: Math.ceil(count / limit)
+                    count,
+                    pages: Math.ceil(count / options.pageSize)
                 },
                 data
             };
@@ -49,6 +51,7 @@ class ProductCtrl {
             res.status(200);
             res.json(response);
         } catch (err) {
+            console.error(err);
             res.status(500);
             res.send('Internal Server Error');
         }
