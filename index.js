@@ -8,6 +8,7 @@ const path = require('path');
 const homeRouter = require('./routes/homeRouter');
 const bookRouter = require('./routes/bookRouter');
 const productRouter = require('./routes/productRouter');
+const userRouter = require('./routes/userRouter');
 
 const app = express();
 const PORT = 3000;
@@ -31,6 +32,7 @@ app.use(morgan('combined', { stream: fileStream }));
 app.use('/', homeRouter);
 app.use('/books', bookRouter);
 app.use('/api/products', productRouter);
+app.use('/api/users', userRouter);
 
 app.get('*', (req, res) => {
     res.status(404);
