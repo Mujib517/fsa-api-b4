@@ -19,6 +19,10 @@ mongoose.connect('mongodb://127.0.0.1:27017/fsa-b4', () => console.log('Connecte
 
 app.use(bodyParser.json());
 
+const logsDir = path.join(__dirname, 'logs');
+if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir);
+}
 const filePath = path.join(__dirname, 'logs', 'request.log');
 const fileStream = fs.createWriteStream(filePath, { flags: 'a' });
 

@@ -1,4 +1,5 @@
 const productRepository = require('../repositories/productRepository');
+const logger = require('../utils/appLogger');
 
 const hasValidationError = (err) => {
     return err && err.message && err.message.indexOf('validation failed') > -1
@@ -51,11 +52,13 @@ class ProductCtrl {
                 },
                 data
             };
+           
+            logger.info(response);
 
             res.status(200);
             res.json(response);
         } catch (err) {
-            console.error(err);
+            logger.error(err);
             res.status(500);
             res.send('Internal Server Error');
         }
