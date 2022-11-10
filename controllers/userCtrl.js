@@ -1,7 +1,6 @@
-const bcrypt = require('bcrypt');
-
 const userRepository = require('../repositories/userRepository');
 const logger = require('../utils/appLogger');
+const crypto = require('../utils/crypto');
 
 const alreadyExists = (err) => {
     return err
@@ -9,10 +8,9 @@ const alreadyExists = (err) => {
         && err.message.indexOf('duplicate key') > -1;
 };
 
-
 const signup = async (req, res) => {
     try {
-        const hash = bcrypt.hashSync(req.body.password, 1);
+        const hash = await crypto.getHash(req.body.password);
         req.body.password = hash;
         req.body.createdDate = new Date();
 
@@ -33,6 +31,28 @@ const signup = async (req, res) => {
     }
 };
 
+const signin = async (req, res) => {
+    const data = req.body;
+    const user = await userRepository.getByEmail(data.email);
+
+    if (!user) {
+        res.status(404); // unauthorized
+        res.send('Email doesnt exist');
+        return;
+    }
+
+    const valid = await crypto.verify(data.password, user.password);
+    
+    if (valid) {
+        res.status(200);
+        res.send('Success');
+    } else {
+        res.status(401);
+        res.send('Invalid email or password');
+    }
+};
+
 module.exports = {
     signup,
-}
+    signin,
+};

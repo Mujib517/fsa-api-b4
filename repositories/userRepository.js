@@ -5,6 +5,12 @@ const create = (data) => {
     return user.save();
 };
 
+const getByEmail = (email) => {
+    return User.findOne({ email: email },
+        { password: 1, role: 1, email: 1 });
+};
+
 module.exports = {
     create,
+    getByEmail,
 }
