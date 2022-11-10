@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 const userRepository = require('../repositories/userRepository');
 const logger = require('../utils/appLogger');
 
@@ -10,7 +12,10 @@ const alreadyExists = (err) => {
 
 const signup = async (req, res) => {
     try {
+        const hash = bcrypt.hashSync(req.body.password, 1);
+        req.body.password = hash;
         req.body.createdDate = new Date();
+
         await userRepository.create(req.body);
 
         res.status(201);
