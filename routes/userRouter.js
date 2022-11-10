@@ -4,6 +4,6 @@ const userCtrl = require('../controllers/userCtrl');
 const router = express.Router();
 
 // http://localhost:3000/api/users/signup
-router.post('/signup', userCtrl.create);
+router.post('/signup', userCtrl.signup);
 
 module.exports = router;
