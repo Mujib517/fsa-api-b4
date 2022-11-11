@@ -9,11 +9,13 @@ const homeRouter = require('./routes/homeRouter');
 const bookRouter = require('./routes/bookRouter');
 const productRouter = require('./routes/productRouter');
 const userRouter = require('./routes/userRouter');
+const auth = require('./utils/auth');
 
 const app = express();
 const PORT = 3000;
 
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
+
 
 // configurations
 mongoose.connect('mongodb://127.0.0.1:27017/fsa-b4', () => console.log('Connected to DB'));
@@ -29,10 +31,20 @@ const fileStream = fs.createWriteStream(filePath, { flags: 'a' });
 
 app.use(morgan('combined', { stream: fileStream }));
 
+// pipeline
+// stage 1 -> stage 2 -> stage 3 -> state n
+// 
+
+// public routes
 app.use('/', homeRouter);
-app.use('/books', bookRouter);
-app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
+
+app.use(auth.basicAuth);
+
+// private router
+app.use('/api/products', productRouter);
+app.use('/api/books', bookRouter);
+
 
 app.get('*', (req, res) => {
     res.status(404);
