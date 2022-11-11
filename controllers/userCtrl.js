@@ -1,6 +1,7 @@
 const userRepository = require('../repositories/userRepository');
 const logger = require('../utils/appLogger');
 const crypto = require('../utils/crypto');
+const jwt = require('jsonwebtoken');
 
 const alreadyExists = (err) => {
     return err
@@ -42,10 +43,16 @@ const signin = async (req, res) => {
     }
 
     const valid = await crypto.verify(data.password, user.password);
-    
+
     if (valid) {
+        const token = jwt.sign({ email: user.email, role: user.role }, 'secret', {
+            expiresIn: '1d'
+        });
         res.status(200);
-        res.send('Success');
+        res.json({
+            email: user.email,
+            token: token
+        });
     } else {
         res.status(401);
         res.send('Invalid email or password');

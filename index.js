@@ -33,18 +33,17 @@ app.use(morgan('combined', { stream: fileStream }));
 
 // pipeline
 // stage 1 -> stage 2 -> stage 3 -> state n
-// 
 
 // public routes
 app.use('/', homeRouter);
 app.use('/api/users', userRouter);
 
-app.use(auth.basicAuth);
+// app.use(auth.basicAuth);
+app.use(auth.tokenAuth);
 
 // private router
 app.use('/api/products', productRouter);
 app.use('/api/books', bookRouter);
-
 
 app.get('*', (req, res) => {
     res.status(404);
