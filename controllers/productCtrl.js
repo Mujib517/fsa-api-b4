@@ -34,11 +34,12 @@ class ProductCtrl {
     // searching
     async get(req, res) {
         try {
+            const direction = !req.query.sort ? 'desc' : req.query.direction;
             const options = {
                 page: +req.params.page || 1,
                 pageSize: +req.params.limit || 10,
                 sort: req.query.sort || 'updatedDate',
-                direction: req.query.direction || 'asc',
+                direction: direction || 'asc',
                 search: req.query.search || ''
             };
 
