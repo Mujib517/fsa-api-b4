@@ -45,14 +45,23 @@ class ProductCtrl {
             const count = await productRepository.getCount(options);
             const data = await productRepository.get(options);
 
+            const transformedData = data.map(product => {
+                return {
+                    ...product._doc,
+                    image: product._doc.image
+                        ? `${req.protocol}://${req.get('host')}/${product._doc.image}`
+                        : undefined
+                };
+            });
+
             const response = {
                 metadata: {
                     count,
                     pages: Math.ceil(count / options.pageSize)
                 },
-                data
+                data: transformedData
             };
-           
+
             logger.info(response);
 
             res.status(200);
