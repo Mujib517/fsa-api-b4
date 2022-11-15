@@ -10,13 +10,14 @@ const bookRouter = require('./routes/bookRouter');
 const productRouter = require('./routes/productRouter');
 const userRouter = require('./routes/userRouter');
 const auth = require('./utils/auth');
+const config = require('./config');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
 
-mongoose.connect('mongodb://127.0.0.1:27017/fsa-b4', () => console.log('Connected to DB'));
+mongoose.connect(config.dbConStr, () => console.log('Connected to DB'));
 
 app.use(bodyParser.json());
 
