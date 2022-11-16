@@ -93,9 +93,13 @@ class ProductCtrl {
     async getById(req, res) {
         const id = req.params.id;
         const product = await productRepository.getById(id);
+        const reviews = await productRepository.getReviewsById(id);
+
+        const jsonProduct = product.toJSON();
+        jsonProduct.reviews = reviews;
 
         res.status(200);
-        res.json(product);
+        res.json(jsonProduct);
     }
 
     async remove(req, res) {
@@ -134,6 +138,13 @@ class ProductCtrl {
             res.status(500);
             res.send('Internal Server Error');
         }
+    }
+
+    async addReview(req, res) {
+        req.body.createdDate = new Date();
+        await productRepository.addReview(req.body);
+        res.status(201);
+        res.send();
     }
 }
 

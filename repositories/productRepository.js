@@ -1,4 +1,5 @@
 const productModel = require('../models/product.model');
+const Review = require('../models/review.model');
 
 // REST API
 // CRUD
@@ -116,6 +117,16 @@ const patch = (id, data) => {
     });
 };
 
+const addReview = (data) => {
+    const review = new Review(data);
+    return review.save();
+};
+
+// pagination
+const getReviewsById = (productId) => Review.find({ productId },
+    { _id: 0, productId: 0, __v: 0 })
+    .sort({ updatedDate: -1 });
+
 module.exports = {
     get,
     save,
@@ -124,4 +135,6 @@ module.exports = {
     update,
     patch,
     getCount,
+    addReview,
+    getReviewsById,
 };

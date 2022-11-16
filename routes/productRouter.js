@@ -17,4 +17,7 @@ router.delete('/:id', productCtrl.remove);
 router.put('/:id', productCtrl.update);
 router.patch('/:id', productCtrl.patch);
 
+// api/products/reviews POST
+router.post('/reviews', productCtrl.addReview);
+
 module.exports = router;
