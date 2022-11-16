@@ -94,9 +94,14 @@ class ProductCtrl {
         const id = req.params.id;
         const product = await productRepository.getById(id);
         const reviews = await productRepository.getReviewsById(id);
+        const ratings = await productRepository.getAvgRating(id);
+
+        const avgRating = ratings && ratings.length > 0
+            ? ratings[0].avgRating : undefined;
 
         const jsonProduct = product.toJSON();
         jsonProduct.reviews = reviews;
+        jsonProduct.avgRating = avgRating;
 
         res.status(200);
         res.json(jsonProduct);
