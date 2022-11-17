@@ -40,7 +40,10 @@ function tokenAuth(req, res, next) {
         const tokens = req.headers.authorization.split(' ');
         const authToken = tokens[1];
         const valid = jwt.verify(authToken, 'secret');
-        if (valid) next();
+        if (valid) {
+            req.role = valid.role;
+            next();
+        }
         else {
             res.status(401);
             res.send('Unauthorized');
@@ -51,7 +54,17 @@ function tokenAuth(req, res, next) {
     }
 }
 
+function authorize(req, res, next) {
+    if (req.role === 2) {
+        next();
+    } else {
+        res.status(403);
+        res.send('Forbidden');
+    }
+}
+
 module.exports = {
     basicAuth,
     tokenAuth,
+    authorize,
 }

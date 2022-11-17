@@ -2,6 +2,7 @@ const express = require('express');
 const upload = require('../utils/uploader');
 
 const productCtrl = require('../controllers/productCtrl');
+const { authorize } = require('../utils/auth');
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ router.get('/:id', productCtrl.getById);
 
 router.post('/', upload.single('image'), productCtrl.post);
 
-router.delete('/:id', productCtrl.remove);
+router.delete('/:id', authorize, productCtrl.remove);
 router.put('/:id', productCtrl.update);
 router.patch('/:id', productCtrl.patch);
 
