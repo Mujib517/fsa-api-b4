@@ -24,6 +24,7 @@ app.use(bodyParser.json());
 const logsDir = path.join(__dirname, 'logs');
 if (!fs.existsSync(logsDir)) {
     fs.mkdirSync(logsDir);
+    fs.writeFileSync(path.join(logsDir, 'app.log'), "");
 }
 const filePath = path.join(__dirname, 'logs', 'request.log');
 const fileStream = fs.createWriteStream(filePath, { flags: 'a' });
