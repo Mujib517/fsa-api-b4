@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
 
 const homeRouter = require('./routes/homeRouter');
 const bookRouter = require('./routes/bookRouter');
@@ -19,6 +20,7 @@ app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
 
 mongoose.connect(config.dbConStr, () => console.log('Connected to DB'));
 
+app.use(cors());
 app.use(bodyParser.json());
 
 const logsDir = path.join(__dirname, 'logs');
