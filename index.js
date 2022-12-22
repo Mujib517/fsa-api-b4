@@ -40,7 +40,7 @@ app.use('/', homeRouter);
 app.use('/api/users', userRouter);
 
 // app.use(auth.basicAuth);
-// app.use(auth.tokenAuth);
+app.use(auth.tokenAuth);
 
 // private router
 app.use('/api/products', productRouter);
